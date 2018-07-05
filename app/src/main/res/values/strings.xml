@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">RestaurantApp</string>
+    <string name="sandwiches_label">Sandwiches</string>
+    <string name="offers_label">Offers</string>
+    <string name="cart_label">Cart</string>
 </resources>
