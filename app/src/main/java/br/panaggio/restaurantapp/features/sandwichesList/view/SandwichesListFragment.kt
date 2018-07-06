@@ -11,11 +11,11 @@ import br.panaggio.restaurantapp.domain.entities.Sandwich
 import kotlinx.android.synthetic.main.fragment_sandwiches_list.*
 
 class SandwichesListFragment : Fragment() {
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater?.inflate(R.layout.fragment_sandwiches_list, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.fragment_sandwiches_list, container, false)
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         setupRecyclerView()
@@ -23,9 +23,9 @@ class SandwichesListFragment : Fragment() {
 
     private fun setupRecyclerView() {
         val sandwiches = listOf(
-                Sandwich(1, "X-Burger1", "https://goo.gl/9DhCgk"),
-                Sandwich(2, "X-Burger2", "https://goo.gl/9DhCgk"),
-                Sandwich(3, "X-Burger3", "https://goo.gl/9DhCgk"),
+                Sandwich(1, "X-Burger1", "https://goo.gl/W9WdaF"),
+                Sandwich(2, "X-Burger2", "https://goo.gl/W9WdaF"),
+                Sandwich(3, "X-Burger3", "https://goo.gl/W9WdaF"),
                 Sandwich(4, "X-Burger4", "https://goo.gl/9DhCgk"),
                 Sandwich(5, "X-Burger5", "https://goo.gl/9DhCgk"),
                 Sandwich(6, "X-Burger6", "https://goo.gl/9DhCgk"),
