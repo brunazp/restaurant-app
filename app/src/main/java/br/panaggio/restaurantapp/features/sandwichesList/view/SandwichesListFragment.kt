@@ -39,6 +39,11 @@ class SandwichesListFragment : Fragment(), SandwichesListContract.View {
         presenter.loadSandwiches()
     }
 
+    override fun onPause() {
+        super.onPause()
+        presenter.release()
+    }
+
     override fun displaySandwiches(sandwiches: List<Sandwich>) {
         sandwichesListAdapter.setItems(sandwiches)
     }
