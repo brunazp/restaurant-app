@@ -25,12 +25,6 @@ class SandwichesListFragment : Fragment(), SandwichesListContract.View {
         setupRecyclerView()
     }
 
-    override fun onResume() {
-        super.onResume()
-        presenter = SandwichesListPresenter(this)
-        presenter.loadSandwiches()
-    }
-
     private fun setupRecyclerView() {
         sandwichesListAdapter = SandwichesListAdapter()
         recyclerview_sandwiches.apply {
@@ -39,8 +33,30 @@ class SandwichesListFragment : Fragment(), SandwichesListContract.View {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        presenter = SandwichesListPresenter(this)
+        presenter.loadSandwiches()
+    }
+
     override fun displaySandwiches(sandwiches: List<Sandwich>) {
         sandwichesListAdapter.setItems(sandwiches)
+    }
+
+    override fun showLoading() {
+        //TODO: show loading
+    }
+
+    override fun hideLoading() {
+        //TODO: hide loading
+    }
+
+    override fun displayError(error: Throwable) {
+        //TODO: display errors
+    }
+
+    override fun displayEmpty() {
+        //TODO: display empty screen
     }
 
     companion object {
