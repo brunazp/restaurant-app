@@ -10,11 +10,16 @@ import br.panaggio.restaurantapp.R
 import br.panaggio.restaurantapp.domain.entities.Sandwich
 import br.panaggio.restaurantapp.features.sandwichesList.SandwichesListContract
 import br.panaggio.restaurantapp.features.sandwichesList.presenter.SandwichesListPresenter
+import com.github.salomonbrys.kodein.LazyKodein
+import com.github.salomonbrys.kodein.android.appKodein
+import com.github.salomonbrys.kodein.instance
+import com.github.salomonbrys.kodein.with
 import kotlinx.android.synthetic.main.fragment_sandwiches_list.*
 
 class SandwichesListFragment : Fragment(), SandwichesListContract.View {
+    private val kodein by lazy { LazyKodein(appKodein) }
     private lateinit var sandwichesListAdapter: SandwichesListAdapter
-    private lateinit var presenter: SandwichesListPresenter
+    private val presenter by kodein.with(this).instance<SandwichesListPresenter>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_sandwiches_list, container, false)
@@ -35,7 +40,6 @@ class SandwichesListFragment : Fragment(), SandwichesListContract.View {
 
     override fun onResume() {
         super.onResume()
-        presenter = SandwichesListPresenter(this)
         presenter.loadSandwiches()
     }
 

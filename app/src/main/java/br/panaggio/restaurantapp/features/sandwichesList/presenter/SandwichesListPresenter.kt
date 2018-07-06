@@ -8,7 +8,7 @@ import io.reactivex.disposables.CompositeDisposable
 
 class SandwichesListPresenter(
         val view: SandwichesListContract.View,
-        val fetchSandwichesListUseCase: FetchSandwichesListUseCase = FetchSandwichesList()) {
+        val fetchSandwichesListUseCase: FetchSandwichesListUseCase) {
 
     private val subscriptions : CompositeDisposable by lazy { CompositeDisposable() }
 
