@@ -33,13 +33,13 @@ class SandwichDetailsActivity : AppCompatActivity(), SandwichDetailsContract.Vie
     }
 
     override fun displaySandwich(sandwich: Sandwich, price: Double) {
-        title = sandwich.name
         val requestOptions = RequestOptions().placeholder(R.drawable.sandwiches)
         Glide.with(this)
                 .load(sandwich.photoUrl)
                 .apply(requestOptions)
                 .into(imageview_photo)
-        textview_ingredients.text = sandwich.ingredients.joinToString { it.name }
+        textview_name.text = sandwich.name
+        textview_ingredients.text = sandwich.ingredients.joinToString(separator = "\n") { it.name }
         textview_price.text = NumberFormat.getCurrencyInstance().format(price)
     }
 
