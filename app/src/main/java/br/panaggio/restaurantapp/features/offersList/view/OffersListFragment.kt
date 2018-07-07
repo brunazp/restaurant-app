@@ -36,6 +36,11 @@ class OffersListFragment : Fragment(), OffersListContract.View {
         presenter.loadOffers()
     }
 
+    override fun onPause() {
+        super.onPause()
+        presenter.release()
+    }
+
     private fun setupRecyclerView() {
         offersListAdapter = OffersListAdapter()
         recyclerview_offers.apply {
@@ -51,19 +56,19 @@ class OffersListFragment : Fragment(), OffersListContract.View {
     }
 
     override fun showLoading() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        progress_bar.visibility = View.VISIBLE
     }
 
     override fun hideLoading() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        progress_bar.visibility = View.GONE
     }
 
     override fun displayError(error: Throwable) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        textview_error_message.visibility = View.GONE
     }
 
     override fun displayEmpty() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        textview_empty_message.visibility = View.VISIBLE
     }
 
     companion object {
