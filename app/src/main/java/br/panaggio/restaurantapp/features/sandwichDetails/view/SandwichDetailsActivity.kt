@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.view.View
 import br.panaggio.restaurantapp.R
 import br.panaggio.restaurantapp.domain.entities.Sandwich
 import br.panaggio.restaurantapp.features.sandwichDetails.SandwichDetailsContract
@@ -32,7 +33,13 @@ class SandwichDetailsActivity : AppCompatActivity(), SandwichDetailsContract.Vie
         presenter.loadSandwich(sandwichId)
     }
 
+    override fun onPause() {
+        super.onPause()
+        presenter.release()
+    }
+
     override fun displaySandwich(sandwich: Sandwich, price: Double) {
+        showContent(true)
         val requestOptions = RequestOptions().placeholder(R.drawable.sandwiches)
         Glide.with(this)
                 .load(sandwich.photoUrl)
@@ -44,7 +51,27 @@ class SandwichDetailsActivity : AppCompatActivity(), SandwichDetailsContract.Vie
     }
 
     override fun displayError(error: Throwable) {
+        showContent(false)
+        textview_error_message.visibility = View.VISIBLE
+    }
 
+    override fun showLoading() {
+        showContent(false)
+        progress_bar.visibility = View.VISIBLE
+    }
+
+    override fun hideLoading() {
+        showContent(true)
+        progress_bar.visibility = View.GONE
+    }
+
+    private fun showContent(show: Boolean) {
+        val visibility = if (show) View.VISIBLE else View.GONE
+        imageview_photo.visibility = visibility
+        textview_name.visibility = visibility
+        textview_ingredients_label.visibility = visibility
+        textview_ingredients.visibility = visibility
+        textview_price.visibility = visibility
     }
 
     companion object {

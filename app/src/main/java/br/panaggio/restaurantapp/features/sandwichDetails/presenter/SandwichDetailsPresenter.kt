@@ -17,8 +17,8 @@ class SandwichDetailsPresenter(
         val subscription = fetchSandwichUseCase
                 .execute(sandwichId)
                 .observeOn(uiScheduler)
-                .doOnSubscribe { }
-                .doOnTerminate { }
+                .doOnSubscribe { view.showLoading() }
+                .doOnTerminate { view.hideLoading() }
                 .subscribe(
                         { displaySandwich(it) },
                         { view.displayError(it) }
