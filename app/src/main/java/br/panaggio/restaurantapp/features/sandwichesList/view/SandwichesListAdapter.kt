@@ -9,6 +9,7 @@ import br.panaggio.restaurantapp.domain.entities.Sandwich
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.item_sandwich.view.*
+import java.text.NumberFormat
 
 class SandwichesListAdapter(
         private var sandwiches: List<Sandwich> = emptyList()) : RecyclerView.Adapter<SandwichItemViewHolder>() {
@@ -40,5 +41,10 @@ class SandwichItemViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView
                 .load(sandwich.photoUrl)
                 .apply(requestOptions)
                 .into(itemView.imageview_photo)
+
+        itemView.textview_ingredients.text = sandwich.ingredients.joinToString { it.name }
+
+        val sandwichPrice = sandwich.ingredients.sumByDouble { it.price }
+        itemView.textview_price.text = NumberFormat.getCurrencyInstance().format(sandwichPrice)
     }
 }
