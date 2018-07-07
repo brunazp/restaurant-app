@@ -2,6 +2,7 @@ package br.panaggio.restaurantapp.network.restaurantApi
 
 import br.panaggio.restaurantapp.domain.dataSources.RestaurantApiDataSource
 import br.panaggio.restaurantapp.domain.entities.Ingredient
+import br.panaggio.restaurantapp.domain.entities.Offer
 import br.panaggio.restaurantapp.domain.entities.Sandwich
 import br.panaggio.restaurantapp.network.restaurantApi.mappers.IngredientMapper
 import br.panaggio.restaurantapp.network.restaurantApi.mappers.SandwichMapper
@@ -38,6 +39,10 @@ class RetrofitRestaurantApiDataSource(
                 .map { IngredientMapper.mapRetrofitToDomain(it) }
                 .toList()
                 .toObservable()
+    }
+
+    override fun fetchOffers(): Observable<List<Offer>> {
+        return restaurantApiService.getOffers()
     }
 
 }

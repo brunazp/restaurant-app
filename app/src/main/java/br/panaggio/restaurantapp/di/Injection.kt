@@ -28,6 +28,14 @@ class Injection(private val application: Application) {
     }
 
     val graph = Kodein.lazy {
+        bind<Scheduler>(WORKER_SCHEDULER) with singleton {
+            Schedulers.io()
+        }
+
+        bind<Scheduler>(UI_SCHEDULER) with singleton {
+            AndroidSchedulers.mainThread()
+        }
+
         bind<Retrofit>() with singleton {
             Retrofit.Builder()
                     .baseUrl(RestaurantApiService.BASE_URL)
@@ -47,19 +55,11 @@ class Injection(private val application: Application) {
             )
         }
 
-        bind<Scheduler>(WORKER_SCHEDULER) with singleton {
-            Schedulers.io()
-        }
-
         bind<FetchSandwichesListUseCase>() with singleton {
             FetchSandwichesList(
                     restaurantApiDataSource = instance(),
                     scheduler = instance(WORKER_SCHEDULER)
             )
-        }
-
-        bind<Scheduler>(UI_SCHEDULER) with singleton {
-            AndroidSchedulers.mainThread()
         }
 
         bind<SandwichesListPresenter>() with scopedSingleton(androidSupportFragmentScope) {
@@ -71,13 +71,17 @@ class Injection(private val application: Application) {
         }
 
         bind<FetchOffersListUseCase>() with singleton {
-            FetchOffersList()
+            FetchOffersList(
+                    restaurantApiDataSource = instance(),
+                    scheduler = instance(WORKER_SCHEDULER)
+            )
         }
 
         bind<OffersListPresenter>() with scopedSingleton(androidSupportFragmentScope) {
             OffersListPresenter(
                     view = it as OffersListContract.View,
-                    fetchOffersListUseCase = instance()
+                    fetchOffersListUseCase = instance(),
+                    uiScheduler = instance(UI_SCHEDULER)
             )
         }
     }
