@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import br.panaggio.restaurantapp.R
 import br.panaggio.restaurantapp.domain.entities.Offer
 import kotlinx.android.synthetic.main.item_offer.view.*
-import kotlinx.android.synthetic.main.item_sandwich.view.*
 
 class OffersListAdapter(
         private var offers: List<Offer> = emptyList()) : RecyclerView.Adapter<OfferItemViewHolder>() {
@@ -21,8 +20,14 @@ class OffersListAdapter(
     override fun getItemCount() = offers.size
 
     override fun onBindViewHolder(holder: OfferItemViewHolder, position: Int) {
-        val sandwich = offers[position]
-        holder.bindView(sandwich)    }
+        val offer = offers[position]
+        holder.bindView(offer)
+    }
+
+    fun setItems(newOffers: List<Offer>) {
+        offers = newOffers
+        notifyDataSetChanged()
+    }
 
 }
 

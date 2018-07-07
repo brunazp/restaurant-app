@@ -3,6 +3,8 @@ package br.panaggio.restaurantapp.di
 import android.app.Application
 import br.panaggio.restaurantapp.domain.dataSources.RestaurantApiDataSource
 import br.panaggio.restaurantapp.domain.useCases.FetchSandwichesListUseCase
+import br.panaggio.restaurantapp.features.offersList.OffersListContract
+import br.panaggio.restaurantapp.features.offersList.presenter.OffersListPresenter
 import br.panaggio.restaurantapp.features.sandwichesList.SandwichesListContract
 import br.panaggio.restaurantapp.features.sandwichesList.presenter.SandwichesListPresenter
 import br.panaggio.restaurantapp.features.sandwichesList.useCases.FetchSandwichesList
@@ -63,6 +65,12 @@ class Injection(private val application: Application) {
                     view = it as SandwichesListContract.View,
                     fetchSandwichesListUseCase = instance(),
                     uiScheduler = instance(UI_SCHEDULER)
+            )
+        }
+
+        bind<OffersListPresenter>() with scopedSingleton(androidSupportFragmentScope) {
+            OffersListPresenter(
+                    view = it as OffersListContract.View
             )
         }
     }
