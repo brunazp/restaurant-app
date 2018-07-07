@@ -12,6 +12,7 @@ import kotlinx.android.synthetic.main.item_sandwich.view.*
 import java.text.NumberFormat
 
 class SandwichesListAdapter(
+        private var itemClickListener: (Sandwich) -> Unit,
         private var sandwiches: List<Sandwich> = emptyList()) : RecyclerView.Adapter<SandwichItemViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SandwichItemViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -23,7 +24,7 @@ class SandwichesListAdapter(
 
     override fun onBindViewHolder(holder: SandwichItemViewHolder, position: Int) {
         val sandwich = sandwiches[position]
-        holder.bindView(sandwich)
+        holder.bindView(sandwich, itemClickListener)
     }
 
     fun setItems(newSandwiches: List<Sandwich>) {
@@ -33,7 +34,7 @@ class SandwichesListAdapter(
 }
 
 class SandwichItemViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
-    fun bindView(sandwich: Sandwich) {
+    fun bindView(sandwich: Sandwich, itemClickListener: (Sandwich) -> Unit) {
         itemView.textview_name.text = sandwich.name
 
         val requestOptions = RequestOptions().placeholder(R.drawable.sandwiches)
@@ -46,5 +47,7 @@ class SandwichItemViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView
 
         val sandwichPrice = sandwich.ingredients.sumByDouble { it.price }
         itemView.textview_price.text = NumberFormat.getCurrencyInstance().format(sandwichPrice)
+
+        itemView.setOnClickListener { itemClickListener(sandwich) }
     }
 }

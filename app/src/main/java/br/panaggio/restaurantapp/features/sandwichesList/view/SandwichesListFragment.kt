@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import br.panaggio.restaurantapp.R
 import br.panaggio.restaurantapp.domain.entities.Sandwich
+import br.panaggio.restaurantapp.features.sandwichDetails.view.SandwichDetailsActivity
 import br.panaggio.restaurantapp.features.sandwichesList.SandwichesListContract
 import br.panaggio.restaurantapp.features.sandwichesList.presenter.SandwichesListPresenter
 import com.github.salomonbrys.kodein.LazyKodein
@@ -32,7 +33,7 @@ class SandwichesListFragment : Fragment(), SandwichesListContract.View {
     }
 
     private fun setupRecyclerView() {
-        sandwichesListAdapter = SandwichesListAdapter()
+        sandwichesListAdapter = SandwichesListAdapter(presenter::clickedOnSandwich)
         recyclerview_sandwiches.apply {
             adapter = sandwichesListAdapter
             layoutManager = LinearLayoutManager(activity)
@@ -69,6 +70,10 @@ class SandwichesListFragment : Fragment(), SandwichesListContract.View {
 
     override fun displayEmpty() {
         textview_empty_message.visibility = View.VISIBLE
+    }
+
+    override fun openSandwichDetails(sandwich: Sandwich) {
+        SandwichDetailsActivity.navigateHere(context, sandwich)
     }
 
     companion object {

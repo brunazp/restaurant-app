@@ -9,5 +9,6 @@ interface SandwichesListContract {
         fun hideLoading()
         fun displayError(error: Throwable)
         fun displayEmpty()
+        fun openSandwichDetails(sandwich: Sandwich)
     }
 }
