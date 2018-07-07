@@ -8,5 +8,6 @@ interface SandwichDetailsContract {
         fun showLoading()
         fun hideLoading()
         fun displayError(error: Throwable)
+        fun close()
     }
 }

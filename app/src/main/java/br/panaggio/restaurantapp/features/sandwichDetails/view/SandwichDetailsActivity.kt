@@ -48,6 +48,7 @@ class SandwichDetailsActivity : AppCompatActivity(), SandwichDetailsContract.Vie
         textview_name.text = sandwich.name
         textview_ingredients.text = sandwich.ingredients.joinToString(separator = "\n") { it.name }
         textview_price.text = NumberFormat.getCurrencyInstance().format(price)
+        button_order.setOnClickListener { presenter.clickedOrder() }
     }
 
     override fun displayError(error: Throwable) {
@@ -65,6 +66,10 @@ class SandwichDetailsActivity : AppCompatActivity(), SandwichDetailsContract.Vie
         progress_bar.visibility = View.GONE
     }
 
+    override fun close() {
+        finish()
+    }
+
     private fun showContent(show: Boolean) {
         val visibility = if (show) View.VISIBLE else View.GONE
         imageview_photo.visibility = visibility
@@ -72,6 +77,7 @@ class SandwichDetailsActivity : AppCompatActivity(), SandwichDetailsContract.Vie
         textview_ingredients_label.visibility = visibility
         textview_ingredients.visibility = visibility
         textview_price.visibility = visibility
+        button_order.visibility = visibility
     }
 
     companion object {

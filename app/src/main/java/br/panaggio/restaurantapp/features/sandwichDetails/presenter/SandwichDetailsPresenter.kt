@@ -12,6 +12,7 @@ class SandwichDetailsPresenter(
         val uiScheduler: Scheduler) {
 
     private val subscriptions: CompositeDisposable by lazy { CompositeDisposable() }
+    private lateinit var sandwich: Sandwich
 
     fun loadSandwich(sandwichId: Int) {
         val subscription = fetchSandwichUseCase
@@ -31,7 +32,12 @@ class SandwichDetailsPresenter(
     }
 
     private fun displaySandwich(sandwich: Sandwich) {
+        this.sandwich = sandwich
         val sandwichPrice = sandwich.ingredients.sumByDouble { it.price }
         view.displaySandwich(sandwich, sandwichPrice)
+    }
+
+    fun clickedOrder() {
+        view.close()
     }
 }
