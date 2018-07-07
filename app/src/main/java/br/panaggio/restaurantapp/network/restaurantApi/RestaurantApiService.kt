@@ -12,9 +12,9 @@ interface RestaurantApiService {
     fun getSandwiches(): Observable<List<RetrofitSandwich>>
 
     @GET("lanche/{id}")
-    fun getSandwich(@Path("id") id: String): Observable<RetrofitSandwich>
+    fun getSandwich(@Path("id") id: Int): Observable<RetrofitSandwich>
 
-    @GET("ingrediente/de/{id}" )
+    @GET("ingrediente/de/{id}")
     fun getSandwichIngredients(@Path("id") sandwichId: Int): Observable<List<RetrofitIngredient>>
 
     @GET("promocao")

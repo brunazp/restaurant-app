@@ -32,6 +32,20 @@ class RetrofitRestaurantApiDataSource(
                 .toObservable()
     }
 
+    override fun fetchSandwich(sandwichId: Int): Observable<Sandwich> {
+        val observableSandwich = restaurantApiService
+                .getSandwich(sandwichId)
+                .map { SandwichMapper.mapRetrofitToDomain(it) }
+        val observableIngredients = fetchSandwichIngredients(sandwichId)
+        return Observable
+                .zip(observableSandwich,
+                        observableIngredients,
+                        BiFunction<Sandwich, List<Ingredient>, Sandwich> { sandwich, ingredientsList ->
+                            sandwich.apply { ingredients = ingredientsList }
+                        }
+                )
+    }
+
     fun fetchSandwichIngredients(sandwichId: Int): Observable<List<Ingredient>> {
         return restaurantApiService
                 .getSandwichIngredients(sandwichId)
