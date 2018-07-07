@@ -42,7 +42,7 @@
         android:drawablePadding="10dp"
         android:drawableTint="@android:color/darker_gray"
         android:gravity="center"
-        android:text="@string/sandwiches_list_error_message"
+        android:text="@string/generic_list_error_message"
         android:textColor="@android:color/darker_gray"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:visibility="gone"
@@ -51,7 +51,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         tools:visibility="gone"
-        tools:text="@string/sandwiches_list_error_message"/>
+        tools:text="@string/generic_list_error_message"/>
 
     <ProgressBar
         android:id="@+id/progress_bar"

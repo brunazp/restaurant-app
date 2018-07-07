@@ -2,7 +2,11 @@ package br.panaggio.restaurantapp.di
 
 import android.app.Application
 import br.panaggio.restaurantapp.domain.dataSources.RestaurantApiDataSource
+import br.panaggio.restaurantapp.domain.useCases.FetchOffersListUseCase
 import br.panaggio.restaurantapp.domain.useCases.FetchSandwichesListUseCase
+import br.panaggio.restaurantapp.features.offersList.OffersListContract
+import br.panaggio.restaurantapp.features.offersList.presenter.OffersListPresenter
+import br.panaggio.restaurantapp.features.offersList.useCases.FetchOffersList
 import br.panaggio.restaurantapp.features.sandwichesList.SandwichesListContract
 import br.panaggio.restaurantapp.features.sandwichesList.presenter.SandwichesListPresenter
 import br.panaggio.restaurantapp.features.sandwichesList.useCases.FetchSandwichesList
@@ -24,6 +28,14 @@ class Injection(private val application: Application) {
     }
 
     val graph = Kodein.lazy {
+        bind<Scheduler>(WORKER_SCHEDULER) with singleton {
+            Schedulers.io()
+        }
+
+        bind<Scheduler>(UI_SCHEDULER) with singleton {
+            AndroidSchedulers.mainThread()
+        }
+
         bind<Retrofit>() with singleton {
             Retrofit.Builder()
                     .baseUrl(RestaurantApiService.BASE_URL)
@@ -43,10 +55,6 @@ class Injection(private val application: Application) {
             )
         }
 
-        bind<Scheduler>(WORKER_SCHEDULER) with singleton {
-            Schedulers.io()
-        }
-
         bind<FetchSandwichesListUseCase>() with singleton {
             FetchSandwichesList(
                     restaurantApiDataSource = instance(),
@@ -54,14 +62,25 @@ class Injection(private val application: Application) {
             )
         }
 
-        bind<Scheduler>(UI_SCHEDULER) with singleton {
-            AndroidSchedulers.mainThread()
-        }
-
         bind<SandwichesListPresenter>() with scopedSingleton(androidSupportFragmentScope) {
             SandwichesListPresenter(
                     view = it as SandwichesListContract.View,
                     fetchSandwichesListUseCase = instance(),
+                    uiScheduler = instance(UI_SCHEDULER)
+            )
+        }
+
+        bind<FetchOffersListUseCase>() with singleton {
+            FetchOffersList(
+                    restaurantApiDataSource = instance(),
+                    scheduler = instance(WORKER_SCHEDULER)
+            )
+        }
+
+        bind<OffersListPresenter>() with scopedSingleton(androidSupportFragmentScope) {
+            OffersListPresenter(
+                    view = it as OffersListContract.View,
+                    fetchOffersListUseCase = instance(),
                     uiScheduler = instance(UI_SCHEDULER)
             )
         }

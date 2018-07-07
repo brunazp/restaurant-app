@@ -3,6 +3,7 @@
     <string name="sandwiches_label">Sandwiches</string>
     <string name="offers_label">Offers</string>
     <string name="cart_label">Cart</string>
+    <string name="generic_list_error_message">Oooops… Something went wrong!\nTry again later!</string>
     <string name="sandwiches_list_empty_message">Oooops… We went out of sandwiches!</string>
-    <string name="sandwiches_list_error_message">Oooops… Something went wrong!\nTry again later!</string>
+    <string name="offers_list_empty_message">No offers for you today</string>
 </resources>
