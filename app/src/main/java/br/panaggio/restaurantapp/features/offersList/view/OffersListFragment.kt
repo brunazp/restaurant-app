@@ -8,8 +8,8 @@ import android.view.ViewGroup
 import br.panaggio.restaurantapp.R
 
 class OffersListFragment : Fragment() {
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater?.inflate(R.layout.fragment_offers_list, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.fragment_offers_list, container, false)
     }
 
     companion object {
