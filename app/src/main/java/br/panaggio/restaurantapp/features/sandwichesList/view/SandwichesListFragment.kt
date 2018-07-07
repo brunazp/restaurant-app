@@ -3,7 +3,6 @@ package br.panaggio.restaurantapp.features.sandwichesList.view
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -50,24 +49,24 @@ class SandwichesListFragment : Fragment(), SandwichesListContract.View {
     }
 
     override fun displaySandwiches(sandwiches: List<Sandwich>) {
+        recyclerview_sandwiches.visibility = View.VISIBLE
         sandwichesListAdapter.setItems(sandwiches)
     }
 
     override fun showLoading() {
-        //TODO: show loading
+        progress_bar.visibility = View.VISIBLE
     }
 
     override fun hideLoading() {
-        //TODO: hide loading
+        progress_bar.visibility = View.GONE
     }
 
     override fun displayError(error: Throwable) {
-        //TODO: display errors
-        Log.d("bruna", "erro")
+        textview_error_message.visibility = View.VISIBLE
     }
 
     override fun displayEmpty() {
-        //TODO: display empty screen
+        textview_empty_message.visibility = View.VISIBLE
     }
 
     companion object {
