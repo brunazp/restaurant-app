@@ -20,7 +20,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".features.sandwichDetails.view.SandwichDetailsActivity"></activity>
+        <activity android:name=".features.sandwichDetails.view.SandwichDetailsActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
     </application>
 
 </manifest>
