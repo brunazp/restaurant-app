@@ -3,6 +3,7 @@ package br.panaggio.restaurantapp.features.sandwichesList.view
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -62,6 +63,7 @@ class SandwichesListFragment : Fragment(), SandwichesListContract.View {
 
     override fun displayError(error: Throwable) {
         //TODO: display errors
+        Log.d("bruna", "erro")
     }
 
     override fun displayEmpty() {
