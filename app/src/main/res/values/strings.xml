@@ -11,4 +11,5 @@
     <string name="order_button">Add to cart</string>
     <string name="details_label">Sandwich details</string>
     <string name="total_label">Total: %s</string>
+    <string name="custom_button">Custom Ingredients</string>
 </resources>

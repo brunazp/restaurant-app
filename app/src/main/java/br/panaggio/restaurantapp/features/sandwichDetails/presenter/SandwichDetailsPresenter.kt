@@ -47,4 +47,8 @@ class SandwichDetailsPresenter(
                 .doOnTerminate { view.hideLoading() }
                 .subscribe({ view.close() }, { view.showCreatingOrderError() })
     }
+
+    fun clickCustom() {
+
+    }
 }

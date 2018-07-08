@@ -50,6 +50,7 @@ class SandwichDetailsActivity : AppCompatActivity(), SandwichDetailsContract.Vie
         textview_ingredients.text = sandwich.ingredients.joinToString(separator = "\n") { it.name }
         textview_price.text = NumberFormat.getCurrencyInstance().format(price)
         button_order.setOnClickListener { presenter.clickedOrder() }
+        button_custom.setOnClickListener { presenter.clickCustom() }
     }
 
     override fun displayError(error: Throwable) {
@@ -86,6 +87,7 @@ class SandwichDetailsActivity : AppCompatActivity(), SandwichDetailsContract.Vie
         textview_ingredients.visibility = visibility
         textview_price.visibility = visibility
         button_order.visibility = visibility
+        button_custom.visibility = visibility
     }
 
     companion object {
