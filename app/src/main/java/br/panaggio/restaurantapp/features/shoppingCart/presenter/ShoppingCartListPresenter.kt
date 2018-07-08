@@ -15,7 +15,7 @@ class ShoppingCartListPresenter(
     fun loadOrderItems() {
         val subscription = fetchOrderItemsUseCase
                 .execute()
-                .subscribeOn(uiScheduler)
+                .observeOn(uiScheduler)
                 .doOnSubscribe { view.showLoading() }
                 .doOnTerminate { view.hideLoading() }
                 .subscribe(

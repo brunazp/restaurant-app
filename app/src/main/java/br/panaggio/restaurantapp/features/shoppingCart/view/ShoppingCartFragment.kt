@@ -51,23 +51,24 @@ class ShoppingCartFragment : Fragment(), ShoppingCartContract.View {
     }
 
     override fun displayOrderItems(offers: List<OrderItem>) {
-
+        recyclerview_order_items.visibility = View.VISIBLE
+        orderItemListAdapter.setItems(offers)
     }
 
     override fun showLoading() {
-
+        progress_bar.visibility = View.VISIBLE
     }
 
     override fun hideLoading() {
-
+        progress_bar.visibility = View.GONE
     }
 
     override fun displayError(error: Throwable) {
-
+        textview_error_message.visibility = View.GONE
     }
 
     override fun displayEmpty() {
-
+        textview_empty_message.visibility = View.VISIBLE
     }
 
     companion object {
