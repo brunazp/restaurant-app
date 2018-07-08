@@ -49,6 +49,6 @@ class SandwichDetailsPresenter(
     }
 
     fun clickCustom() {
-
+        view.openIngredientsSelector()
     }
 }

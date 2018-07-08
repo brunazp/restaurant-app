@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity
 import android.view.View
 import br.panaggio.restaurantapp.R
 import br.panaggio.restaurantapp.domain.entities.Sandwich
+import br.panaggio.restaurantapp.features.ingredientsSelector.view.IngredientsSelectorActivity
 import br.panaggio.restaurantapp.features.sandwichDetails.SandwichDetailsContract
 import br.panaggio.restaurantapp.features.sandwichDetails.presenter.SandwichDetailsPresenter
 import com.bumptech.glide.Glide
@@ -77,6 +78,10 @@ class SandwichDetailsActivity : AppCompatActivity(), SandwichDetailsContract.Vie
                 .setMessage(R.string.generic_list_error_message)
                 .setPositiveButton(android.R.string.ok, { _, _ -> finish() })
                 .show()
+    }
+
+    override fun openIngredientsSelector() {
+        IngredientsSelectorActivity.navigateHere(this)
     }
 
     private fun showContent(show: Boolean) {
