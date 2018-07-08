@@ -35,7 +35,11 @@ class OrderItemListAdapter(
 
 class OrderItemViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
     fun bindView(orderItem: OrderItem) {
-        itemView.textview_name.text = orderItem.sandwich?.name
+        val sandwichName =
+                if (orderItem.extras.isEmpty())
+                    orderItem.sandwich?.name
+                else itemView.context.getString(R.string.customized_label, orderItem.sandwich?.name)
+        itemView.textview_name.text = sandwichName
 
         val requestOptions = RequestOptions().placeholder(R.drawable.sandwiches)
         Glide.with(itemView.rootView.context)
@@ -43,7 +47,13 @@ class OrderItemViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
                 .apply(requestOptions)
                 .into(itemView.imageview_photo)
 
-        val sandwichPrice = orderItem.sandwich?.ingredients?.sumByDouble { it.price }
-        itemView.textview_price.text = NumberFormat.getCurrencyInstance().format(sandwichPrice)
+        val orderItemPrice = getOrderPrice(orderItem)
+        itemView.textview_price.text = NumberFormat.getCurrencyInstance().format(orderItemPrice)
+    }
+
+    private fun getOrderPrice(orderItem: OrderItem): Double {
+        val sandwichPrice = orderItem.sandwich?.ingredients?.sumByDouble { it.price } ?: 0.0
+        val extraPrice = orderItem.extras.sumByDouble { it.price }
+        return sandwichPrice + extraPrice
     }
 }

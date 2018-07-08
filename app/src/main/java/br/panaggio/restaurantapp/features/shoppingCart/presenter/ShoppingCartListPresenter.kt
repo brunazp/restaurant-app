@@ -34,11 +34,15 @@ class ShoppingCartListPresenter(
             view.displayEmpty()
         } else {
 
-            val totalPrice = orderItems
-                    .flatMap { it.sandwich?.ingredients ?: emptyList() }
-                    .sumByDouble { it.price }
+            val totalPrice = orderItems.map { getOrderPrice(it) }.sum()
             view.displayOrderItems(orderItems)
             view.displayTotalPrice(totalPrice)
         }
+    }
+
+    private fun getOrderPrice(orderItem: OrderItem): Double {
+        val sandwichPrice = orderItem.sandwich?.ingredients?.sumByDouble { it.price } ?: 0.0
+        val extraPrice = orderItem.extras.sumByDouble { it.price }
+        return sandwichPrice + extraPrice
     }
 }
