@@ -5,6 +5,7 @@ import br.panaggio.restaurantapp.domain.entities.Ingredient
 import br.panaggio.restaurantapp.domain.entities.Offer
 import br.panaggio.restaurantapp.domain.entities.OrderItem
 import br.panaggio.restaurantapp.domain.entities.Sandwich
+import br.panaggio.restaurantapp.network.restaurantApi.entities.RetrofitCreateOrderItemBody
 import br.panaggio.restaurantapp.network.restaurantApi.mappers.IngredientMapper
 import br.panaggio.restaurantapp.network.restaurantApi.mappers.OrderItemMapper
 import br.panaggio.restaurantapp.network.restaurantApi.mappers.SandwichMapper
@@ -49,11 +50,13 @@ class RetrofitRestaurantApiDataSource(
                 )
     }
 
-    override fun createOrderItem(sandwichId: Int): Completable {
+    override fun createOrderItem(sandwichId: Int, extraIngredients: List<Ingredient>): Completable {
+        val extraIds = extraIngredients
+                .map { it.id }
+                .joinToString(prefix = "[", postfix = "]")
         return restaurantApiService
-                .createOrderItem(sandwichId)
+                .createOrderItem(sandwichId, RetrofitCreateOrderItemBody(extraIds))
                 .ignoreElements()
-
     }
 
     fun fetchSandwichIngredients(sandwichId: Int): Observable<List<Ingredient>> {

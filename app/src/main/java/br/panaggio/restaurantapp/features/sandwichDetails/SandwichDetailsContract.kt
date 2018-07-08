@@ -10,7 +10,7 @@ interface SandwichDetailsContract {
         fun hideLoading()
         fun displayError(error: Throwable)
         fun close()
-        fun showCreatingOrderError()
+        fun showCreatingOrderError(error: Throwable)
         fun openIngredientsSelector()
     }
 }

@@ -41,7 +41,7 @@ class SandwichDetailsActivity : AppCompatActivity(), SandwichDetailsContract.Vie
         presenter.release()
     }
 
-    override fun displaySandwich(sandwich: Sandwich, price: Double, extraIngredients: List<Ingredient>) {
+    override fun displaySandwich(sandwich: Sandwich, price: Double, extrasIngredient: List<Ingredient>) {
         showContent(true)
         val requestOptions = RequestOptions().placeholder(R.drawable.sandwiches)
         Glide.with(this)
@@ -50,14 +50,14 @@ class SandwichDetailsActivity : AppCompatActivity(), SandwichDetailsContract.Vie
                 .into(imageview_photo)
 
         val sandwichName =
-                if (extraIngredients.isEmpty()) sandwich.name else getString(R.string.customized_label, sandwich.name)
+                if (extrasIngredient.isEmpty()) sandwich.name else getString(R.string.customized_label, sandwich.name)
         textview_name.text = sandwichName
 
         textview_price.text = NumberFormat.getCurrencyInstance().format(price)
         button_order.setOnClickListener { presenter.clickedOrder() }
         button_custom.setOnClickListener { presenter.clickCustom() }
 
-        val ingredients = sandwich.ingredients + extraIngredients
+        val ingredients = sandwich.ingredients + extrasIngredient
         textview_ingredients.text = ingredients
                 .groupingBy { it }
                 .eachCount()
@@ -85,7 +85,7 @@ class SandwichDetailsActivity : AppCompatActivity(), SandwichDetailsContract.Vie
         finish()
     }
 
-    override fun showCreatingOrderError() {
+    override fun showCreatingOrderError(error: Throwable) {
         AlertDialog.Builder(this)
                 .setMessage(R.string.generic_list_error_message)
                 .setPositiveButton(android.R.string.ok, { _, _ -> finish() })

@@ -44,11 +44,11 @@ class SandwichDetailsPresenter(
 
     fun clickedOrder() {
         createOrderItemUseCase
-                .execute(sandwich.id)
+                .execute(sandwich.id, getExtraIngredientsList())
                 .observeOn(uiScheduler)
                 .doOnSubscribe { view.showLoading() }
                 .doOnTerminate { view.hideLoading() }
-                .subscribe({ view.close() }, { view.showCreatingOrderError() })
+                .subscribe({ view.close() }, { view.showCreatingOrderError(it) })
     }
 
     fun clickCustom() {
