@@ -3,9 +3,12 @@ package br.panaggio.restaurantapp.network.restaurantApi
 import br.panaggio.restaurantapp.domain.dataSources.RestaurantApiDataSource
 import br.panaggio.restaurantapp.domain.entities.Ingredient
 import br.panaggio.restaurantapp.domain.entities.Offer
+import br.panaggio.restaurantapp.domain.entities.OrderItem
 import br.panaggio.restaurantapp.domain.entities.Sandwich
 import br.panaggio.restaurantapp.network.restaurantApi.mappers.IngredientMapper
+import br.panaggio.restaurantapp.network.restaurantApi.mappers.OrderItemMapper
 import br.panaggio.restaurantapp.network.restaurantApi.mappers.SandwichMapper
+import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.functions.BiFunction
 
@@ -46,11 +49,40 @@ class RetrofitRestaurantApiDataSource(
                 )
     }
 
+    override fun createOrderItem(sandwichId: Int): Completable {
+        return restaurantApiService
+                .createOrderItem(sandwichId)
+                .ignoreElements()
+
+    }
+
     fun fetchSandwichIngredients(sandwichId: Int): Observable<List<Ingredient>> {
         return restaurantApiService
                 .getSandwichIngredients(sandwichId)
                 .flatMap { Observable.fromIterable(it) }
                 .map { IngredientMapper.mapRetrofitToDomain(it) }
+                .toList()
+                .toObservable()
+    }
+
+    override fun fetchOrderItems(): Observable<List<OrderItem>> {
+        return restaurantApiService
+                .getOrderItems()
+                .flatMap { Observable.fromIterable(it) }
+                .flatMap {
+                    val observableSandwich = fetchSandwich(it.sandwichId)
+                    val observableOrderItem = Observable
+                            .just(it)
+                            .map { OrderItemMapper.mapRetrofitToDomain(it) }
+
+                    Observable
+                            .zip(observableOrderItem,
+                                    observableSandwich,
+                                    BiFunction<OrderItem, Sandwich, OrderItem> { orderItem, sandwichItem ->
+                                        orderItem.apply { sandwich = sandwichItem }
+                                    }
+                            )
+                }
                 .toList()
                 .toObservable()
     }

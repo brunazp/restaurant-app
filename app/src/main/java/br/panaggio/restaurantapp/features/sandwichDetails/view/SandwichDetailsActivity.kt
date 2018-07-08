@@ -3,6 +3,7 @@ package br.panaggio.restaurantapp.features.sandwichDetails.view
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import br.panaggio.restaurantapp.R
@@ -48,6 +49,7 @@ class SandwichDetailsActivity : AppCompatActivity(), SandwichDetailsContract.Vie
         textview_name.text = sandwich.name
         textview_ingredients.text = sandwich.ingredients.joinToString(separator = "\n") { it.name }
         textview_price.text = NumberFormat.getCurrencyInstance().format(price)
+        button_order.setOnClickListener { presenter.clickedOrder() }
     }
 
     override fun displayError(error: Throwable) {
@@ -65,6 +67,17 @@ class SandwichDetailsActivity : AppCompatActivity(), SandwichDetailsContract.Vie
         progress_bar.visibility = View.GONE
     }
 
+    override fun close() {
+        finish()
+    }
+
+    override fun showCreatingOrderError() {
+        AlertDialog.Builder(this)
+                .setMessage(R.string.generic_list_error_message)
+                .setPositiveButton(android.R.string.ok, { _, _ -> finish() })
+                .show()
+    }
+
     private fun showContent(show: Boolean) {
         val visibility = if (show) View.VISIBLE else View.GONE
         imageview_photo.visibility = visibility
@@ -72,6 +85,7 @@ class SandwichDetailsActivity : AppCompatActivity(), SandwichDetailsContract.Vie
         textview_ingredients_label.visibility = visibility
         textview_ingredients.visibility = visibility
         textview_price.visibility = visibility
+        button_order.visibility = visibility
     }
 
     companion object {
