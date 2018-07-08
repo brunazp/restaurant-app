@@ -1,6 +1,7 @@
 package br.panaggio.restaurantapp.features.sandwichDetails.presenter
 
 import br.panaggio.restaurantapp.domain.entities.Sandwich
+import br.panaggio.restaurantapp.domain.useCases.CreateOrderItemUseCase
 import br.panaggio.restaurantapp.domain.useCases.FetchSandwichUseCase
 import br.panaggio.restaurantapp.features.sandwichDetails.SandwichDetailsContract
 import io.reactivex.Scheduler
@@ -9,6 +10,7 @@ import io.reactivex.disposables.CompositeDisposable
 class SandwichDetailsPresenter(
         val view: SandwichDetailsContract.View,
         val fetchSandwichUseCase: FetchSandwichUseCase,
+        val createOrderItemUseCase: CreateOrderItemUseCase,
         val uiScheduler: Scheduler) {
 
     private val subscriptions: CompositeDisposable by lazy { CompositeDisposable() }
@@ -38,6 +40,11 @@ class SandwichDetailsPresenter(
     }
 
     fun clickedOrder() {
-        view.close()
+        createOrderItemUseCase
+                .execute(sandwich.id)
+                .observeOn(uiScheduler)
+                .doOnSubscribe { view.showLoading() }
+                .doOnTerminate { view.hideLoading() }
+                .subscribe({ view.close() }, { view.showCreatingOrderError() })
     }
 }

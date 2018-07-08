@@ -2,6 +2,7 @@ package br.panaggio.restaurantapp.di
 
 import android.app.Application
 import br.panaggio.restaurantapp.domain.dataSources.RestaurantApiDataSource
+import br.panaggio.restaurantapp.domain.useCases.CreateOrderItemUseCase
 import br.panaggio.restaurantapp.domain.useCases.FetchOffersListUseCase
 import br.panaggio.restaurantapp.domain.useCases.FetchSandwichUseCase
 import br.panaggio.restaurantapp.domain.useCases.FetchSandwichesListUseCase
@@ -10,6 +11,7 @@ import br.panaggio.restaurantapp.features.offersList.presenter.OffersListPresent
 import br.panaggio.restaurantapp.features.offersList.useCases.FetchOffersList
 import br.panaggio.restaurantapp.features.sandwichDetails.SandwichDetailsContract
 import br.panaggio.restaurantapp.features.sandwichDetails.presenter.SandwichDetailsPresenter
+import br.panaggio.restaurantapp.features.sandwichDetails.useCases.CreateOrderItem
 import br.panaggio.restaurantapp.features.sandwichDetails.useCases.FetchSandwich
 import br.panaggio.restaurantapp.features.sandwichesList.SandwichesListContract
 import br.panaggio.restaurantapp.features.sandwichesList.presenter.SandwichesListPresenter
@@ -96,10 +98,18 @@ class Injection(private val application: Application) {
             )
         }
 
+        bind<CreateOrderItemUseCase>() with singleton {
+            CreateOrderItem(
+                    restaurantApiDataSource = instance(),
+                    scheduler = instance(WORKER_SCHEDULER)
+            )
+        }
+
         bind<SandwichDetailsPresenter>() with scopedSingleton(androidActivityScope) {
             SandwichDetailsPresenter(
                     view = it as SandwichDetailsContract.View,
                     fetchSandwichUseCase = instance(),
+                    createOrderItemUseCase = instance(),
                     uiScheduler = instance(UI_SCHEDULER)
             )
         }

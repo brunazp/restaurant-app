@@ -6,6 +6,7 @@ import br.panaggio.restaurantapp.domain.entities.Offer
 import br.panaggio.restaurantapp.domain.entities.Sandwich
 import br.panaggio.restaurantapp.network.restaurantApi.mappers.IngredientMapper
 import br.panaggio.restaurantapp.network.restaurantApi.mappers.SandwichMapper
+import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.functions.BiFunction
 
@@ -44,6 +45,13 @@ class RetrofitRestaurantApiDataSource(
                             sandwich.apply { ingredients = ingredientsList }
                         }
                 )
+    }
+
+    override fun createOrderItem(sandwichId: Int): Completable {
+        return restaurantApiService
+                .createOrderItem(sandwichId)
+                .ignoreElements()
+
     }
 
     fun fetchSandwichIngredients(sandwichId: Int): Observable<List<Ingredient>> {

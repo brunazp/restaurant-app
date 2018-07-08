@@ -3,6 +3,7 @@ package br.panaggio.restaurantapp.features.sandwichDetails.view
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import br.panaggio.restaurantapp.R
@@ -68,6 +69,13 @@ class SandwichDetailsActivity : AppCompatActivity(), SandwichDetailsContract.Vie
 
     override fun close() {
         finish()
+    }
+
+    override fun showCreatingOrderError() {
+        AlertDialog.Builder(this)
+                .setMessage(R.string.generic_list_error_message)
+                .setPositiveButton(android.R.string.ok, { _, _ -> finish() })
+                .show()
     }
 
     private fun showContent(show: Boolean) {
