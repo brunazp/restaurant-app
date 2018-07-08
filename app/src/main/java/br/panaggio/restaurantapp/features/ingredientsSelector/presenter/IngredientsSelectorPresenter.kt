@@ -1,9 +1,12 @@
 package br.panaggio.restaurantapp.features.ingredientsSelector.presenter
 
-import android.util.Log
+import android.app.Activity
+import android.content.Intent
+import android.os.Bundle
 import br.panaggio.restaurantapp.domain.entities.Ingredient
 import br.panaggio.restaurantapp.domain.useCases.FetchIngredientsListUseCase
 import br.panaggio.restaurantapp.features.ingredientsSelector.IngredientsSelectorContract
+import br.panaggio.restaurantapp.features.ingredientsSelector.view.IngredientsSelectorActivity
 import io.reactivex.Scheduler
 import io.reactivex.disposables.CompositeDisposable
 
@@ -62,6 +65,11 @@ class IngredientsSelectorPresenter(
     }
 
     fun clickedOnCompleteSelection() {
+        val bundle = Bundle()
+        bundle.putSerializable(IngredientsSelectorActivity.EXTRA_CUSTOM_INGREDIENTS, mapIngredientQuantity)
 
+        val returnIntent = Intent()
+        returnIntent.putExtra(IngredientsSelectorActivity.EXTRA_BUNDLE, bundle)
+        view.returnDataAndClose(Activity.RESULT_OK, returnIntent)
     }
 }

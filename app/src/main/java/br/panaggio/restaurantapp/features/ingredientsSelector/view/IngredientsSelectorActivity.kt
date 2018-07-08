@@ -1,6 +1,5 @@
 package br.panaggio.restaurantapp.features.ingredientsSelector.view
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -85,11 +84,14 @@ class IngredientsSelectorActivity : AppCompatActivity(), IngredientsSelectorCont
         textview_empty_message.visibility = View.VISIBLE
     }
 
+    override fun returnDataAndClose(result: Int, returnIntent: Intent) {
+        setResult(result, returnIntent);
+        finish()
+    }
 
     companion object {
-        fun navigateHere(context: Context?) {
-            val intent = Intent(context, IngredientsSelectorActivity::class.java)
-            context?.startActivity(intent)
-        }
+        val EXTRA_ITEMS_REQUEST = 1
+        val EXTRA_BUNDLE = "extra_bundle"
+        val EXTRA_CUSTOM_INGREDIENTS = "extra_result_ingredients"
     }
 }

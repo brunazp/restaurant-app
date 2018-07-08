@@ -1,5 +1,7 @@
 package br.panaggio.restaurantapp.features.sandwichDetails.presenter
 
+import android.util.Log
+import br.panaggio.restaurantapp.domain.entities.Ingredient
 import br.panaggio.restaurantapp.domain.entities.Sandwich
 import br.panaggio.restaurantapp.domain.useCases.CreateOrderItemUseCase
 import br.panaggio.restaurantapp.domain.useCases.FetchSandwichUseCase
@@ -15,6 +17,7 @@ class SandwichDetailsPresenter(
 
     private val subscriptions: CompositeDisposable by lazy { CompositeDisposable() }
     private lateinit var sandwich: Sandwich
+    private var extrasIngredientsQuantity = HashMap<Ingredient, Int>()
 
     fun loadSandwich(sandwichId: Int) {
         val subscription = fetchSandwichUseCase
@@ -35,8 +38,8 @@ class SandwichDetailsPresenter(
 
     private fun displaySandwich(sandwich: Sandwich) {
         this.sandwich = sandwich
-        val sandwichPrice = sandwich.ingredients.sumByDouble { it.price }
-        view.displaySandwich(sandwich, sandwichPrice)
+        val extrasIngredient = getExtraIngredientsList()
+        view.displaySandwich(sandwich, getOrderPrice(), extrasIngredient)
     }
 
     fun clickedOrder() {
@@ -50,5 +53,26 @@ class SandwichDetailsPresenter(
 
     fun clickCustom() {
         view.openIngredientsSelector()
+    }
+
+    fun extraUpdated(extras: HashMap<Ingredient, Int>?) {
+        extrasIngredientsQuantity = extras ?: HashMap()
+
+        val extrasIngredient = getExtraIngredientsList()
+        view.displaySandwich(sandwich, getOrderPrice(), extrasIngredient)
+    }
+
+    private fun getExtraIngredientsList() : List<Ingredient> {
+        return extrasIngredientsQuantity.entries.flatMap {
+            val amount = it.value
+            val ingredient = it.key
+            (1..amount).map { ingredient }
+        }
+    }
+
+    private fun getOrderPrice(): Double {
+        val sandwichPrice = sandwich.ingredients.sumByDouble { it.price }
+        val extraPrice = getExtraIngredientsList().sumByDouble { it.price }
+        return sandwichPrice + extraPrice
     }
 }
