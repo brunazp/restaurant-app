@@ -33,7 +33,12 @@ class ShoppingCartListPresenter(
         if (orderItems.isEmpty()) {
             view.displayEmpty()
         } else {
+
+            val totalPrice = orderItems
+                    .flatMap { it.sandwich?.ingredients ?: emptyList() }
+                    .sumByDouble { it.price }
             view.displayOrderItems(orderItems)
+            view.displayTotalPrice(totalPrice)
         }
     }
 }

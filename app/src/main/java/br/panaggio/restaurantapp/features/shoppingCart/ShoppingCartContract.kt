@@ -9,5 +9,6 @@ interface ShoppingCartContract {
         fun hideLoading()
         fun displayError(error: Throwable)
         fun displayEmpty()
+        fun displayTotalPrice(totalPrice: Double)
     }
 }

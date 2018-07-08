@@ -16,6 +16,7 @@ import com.github.salomonbrys.kodein.android.appKodein
 import com.github.salomonbrys.kodein.instance
 import com.github.salomonbrys.kodein.with
 import kotlinx.android.synthetic.main.fragment_shopping_cart.*
+import java.text.NumberFormat
 
 class ShoppingCartFragment : Fragment(), ShoppingCartContract.View {
     private val kodein by lazy { LazyKodein(appKodein) }
@@ -53,6 +54,11 @@ class ShoppingCartFragment : Fragment(), ShoppingCartContract.View {
     override fun displayOrderItems(offers: List<OrderItem>) {
         recyclerview_order_items.visibility = View.VISIBLE
         orderItemListAdapter.setItems(offers)
+    }
+
+    override fun displayTotalPrice(totalPrice: Double) {
+        val formattedPrice = NumberFormat.getCurrencyInstance().format(totalPrice)
+        textview_total.text = getString(R.string.total_label, formattedPrice)
     }
 
     override fun showLoading() {
