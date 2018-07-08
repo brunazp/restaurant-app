@@ -1,5 +1,6 @@
 package br.panaggio.restaurantapp.features.ingredientsSelector.presenter
 
+import android.util.Log
 import br.panaggio.restaurantapp.domain.entities.Ingredient
 import br.panaggio.restaurantapp.domain.useCases.FetchIngredientsListUseCase
 import br.panaggio.restaurantapp.features.ingredientsSelector.IngredientsSelectorContract
@@ -12,6 +13,9 @@ class IngredientsSelectorPresenter(
         val uiScheduler: Scheduler) {
 
     private val subscriptions : CompositeDisposable by lazy { CompositeDisposable() }
+    private var mapIngredientQuantity = HashMap<Ingredient, Int>()
+    private val MAX_ITEMS = 10
+    private val MIN_ITEMS = 0
 
     fun loadIngredients() {
         val subscription = fetchIngredientsList
@@ -34,7 +38,26 @@ class IngredientsSelectorPresenter(
         if (ingredients.isEmpty()) {
             view.displayEmpty()
         } else {
-            view.displayItems(ingredients)
+            ingredients.forEach { mapIngredientQuantity.put(it, 0) }
+            view.displayItems(mapIngredientQuantity)
+        }
+    }
+
+    fun clickedOnIncreaseIngredient(ingredient: Ingredient) {
+        val oldQuantity = mapIngredientQuantity[ingredient] ?: 0
+        val newQuantity = oldQuantity + 1
+        if (newQuantity <= MAX_ITEMS) {
+            mapIngredientQuantity.set(ingredient, newQuantity)
+            view.displayItems(mapIngredientQuantity)
+        }
+    }
+
+    fun clickedOnDecreaseIngredient(ingredient: Ingredient) {
+        val oldQuantity = mapIngredientQuantity[ingredient] ?: 0
+        val newQuantity = oldQuantity - 1
+        if (newQuantity >= MIN_ITEMS) {
+            mapIngredientQuantity.set(ingredient, newQuantity)
+            view.displayItems(mapIngredientQuantity)
         }
     }
 }

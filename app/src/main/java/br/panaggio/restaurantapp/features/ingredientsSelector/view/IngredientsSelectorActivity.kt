@@ -29,7 +29,8 @@ class IngredientsSelectorActivity : AppCompatActivity(), IngredientsSelectorCont
     }
 
     private fun setupRecyclerView() {
-        ingredientsListAdapter = IngredientsListAdapter()
+        ingredientsListAdapter = IngredientsListAdapter(
+                presenter::clickedOnIncreaseIngredient, presenter::clickedOnDecreaseIngredient)
         recyclerview_ingredients.apply {
             adapter = ingredientsListAdapter
             layoutManager = LinearLayoutManager(context)
@@ -47,9 +48,9 @@ class IngredientsSelectorActivity : AppCompatActivity(), IngredientsSelectorCont
         presenter.release()
     }
 
-    override fun displayItems(ingredients: List<Ingredient>) {
+    override fun displayItems(ingredientsQuantity: Map<Ingredient, Int>) {
         recyclerview_ingredients.visibility = View.VISIBLE
-        ingredientsListAdapter.setItems(ingredients)
+        ingredientsListAdapter.setItems(ingredientsQuantity)
     }
 
     override fun showLoading() {
