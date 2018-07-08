@@ -1,5 +1,6 @@
 package br.panaggio.restaurantapp.network.restaurantApi
 
+import br.panaggio.restaurantapp.domain.entities.Ingredient
 import br.panaggio.restaurantapp.domain.entities.Offer
 import br.panaggio.restaurantapp.network.restaurantApi.entities.RetrofitIngredient
 import br.panaggio.restaurantapp.network.restaurantApi.entities.RetrofitOrderItem
@@ -15,6 +16,9 @@ interface RestaurantApiService {
 
     @GET("lanche/{id}")
     fun getSandwich(@Path("id") id: Int): Observable<RetrofitSandwich>
+
+    @GET("ingrediente")
+    fun getIngredients() : Observable<List<RetrofitIngredient>>
 
     @GET("ingrediente/de/{id}")
     fun getSandwichIngredients(@Path("id") sandwichId: Int): Observable<List<RetrofitIngredient>>

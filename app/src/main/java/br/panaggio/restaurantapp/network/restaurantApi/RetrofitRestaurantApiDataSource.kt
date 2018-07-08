@@ -91,4 +91,12 @@ class RetrofitRestaurantApiDataSource(
         return restaurantApiService.getOffers()
     }
 
+    override fun fetchIngredients() : Observable<List<Ingredient>> {
+        return restaurantApiService
+                .getIngredients()
+                .flatMap { Observable.fromIterable(it) }
+                .map { IngredientMapper.mapRetrofitToDomain(it) }
+                .toList()
+                .toObservable()
+    }
 }
