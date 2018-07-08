@@ -14,4 +14,5 @@
     <string name="total_label">Total: %s</string>
     <string name="custom_button">Extras</string>
     <string name="extras_label">Choose your extras</string>
+    <string name="done_label">Done</string>
 </resources>

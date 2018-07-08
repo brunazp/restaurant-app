@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import br.panaggio.restaurantapp.R
 import br.panaggio.restaurantapp.domain.entities.Ingredient
@@ -26,6 +28,20 @@ class IngredientsSelectorActivity : AppCompatActivity(), IngredientsSelectorCont
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ingredients_selector)
         setupRecyclerView()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        super.onCreateOptionsMenu(menu)
+        menuInflater.inflate(R.menu.menu_ingredients_selector, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        super.onOptionsItemSelected(item)
+        when (item?.itemId) {
+            R.id.action_complete_selection -> presenter.clickedOnCompleteSelection()
+        }
+        return true
     }
 
     private fun setupRecyclerView() {

@@ -60,4 +60,8 @@ class IngredientsSelectorPresenter(
             view.displayItems(mapIngredientQuantity)
         }
     }
+
+    fun clickedOnCompleteSelection() {
+
+    }
 }
