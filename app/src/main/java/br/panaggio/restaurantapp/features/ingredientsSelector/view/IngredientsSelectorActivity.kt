@@ -53,19 +53,19 @@ class IngredientsSelectorActivity : AppCompatActivity(), IngredientsSelectorCont
     }
 
     override fun showLoading() {
-
+        progress_bar.visibility = View.VISIBLE
     }
 
     override fun hideLoading() {
-
+        progress_bar.visibility = View.GONE
     }
 
     override fun displayError(error: Throwable) {
-
+        textview_error_message.visibility = View.VISIBLE
     }
 
     override fun displayEmpty() {
-
+        textview_empty_message.visibility = View.VISIBLE
     }
 
 

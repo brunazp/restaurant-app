@@ -4,13 +4,17 @@ import br.panaggio.restaurantapp.domain.entities.Ingredient
 import br.panaggio.restaurantapp.domain.useCases.FetchIngredientsListUseCase
 import br.panaggio.restaurantapp.features.ingredientsSelector.IngredientsSelectorContract
 import io.reactivex.Scheduler
+import io.reactivex.disposables.CompositeDisposable
 
 class IngredientsSelectorPresenter(
         val view: IngredientsSelectorContract.View,
         val fetchIngredientsList: FetchIngredientsListUseCase,
         val uiScheduler: Scheduler) {
+
+    private val subscriptions : CompositeDisposable by lazy { CompositeDisposable() }
+
     fun loadIngredients() {
-        fetchIngredientsList
+        val subscription = fetchIngredientsList
                 .execute()
                 .observeOn(uiScheduler)
                 .doOnSubscribe { view.showLoading() }
@@ -19,10 +23,11 @@ class IngredientsSelectorPresenter(
                         { displayItems(it) },
                         { view.displayError(it) }
                 )
+        subscriptions.add(subscription)
     }
 
     fun release() {
-
+        subscriptions.clear()
     }
 
     private fun displayItems(ingredients: List<Ingredient>) {
