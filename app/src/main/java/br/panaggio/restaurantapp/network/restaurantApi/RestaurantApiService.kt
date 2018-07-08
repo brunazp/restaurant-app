@@ -22,6 +22,9 @@ interface RestaurantApiService {
     @GET("promocao")
     fun getOffers(): Observable<List<Offer>>
 
+    @GET("pedido")
+    fun getOrderItems(): Observable<List<RetrofitOrderItem>>
+
     @PUT("pedido/{id}")
     fun createOrderItem(@Path("id") sandwichId: Int): Observable<RetrofitOrderItem>
 

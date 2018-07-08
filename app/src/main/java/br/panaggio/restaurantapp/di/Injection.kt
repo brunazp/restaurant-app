@@ -2,10 +2,7 @@ package br.panaggio.restaurantapp.di
 
 import android.app.Application
 import br.panaggio.restaurantapp.domain.dataSources.RestaurantApiDataSource
-import br.panaggio.restaurantapp.domain.useCases.CreateOrderItemUseCase
-import br.panaggio.restaurantapp.domain.useCases.FetchOffersListUseCase
-import br.panaggio.restaurantapp.domain.useCases.FetchSandwichUseCase
-import br.panaggio.restaurantapp.domain.useCases.FetchSandwichesListUseCase
+import br.panaggio.restaurantapp.domain.useCases.*
 import br.panaggio.restaurantapp.features.offersList.OffersListContract
 import br.panaggio.restaurantapp.features.offersList.presenter.OffersListPresenter
 import br.panaggio.restaurantapp.features.offersList.useCases.FetchOffersList
@@ -16,6 +13,9 @@ import br.panaggio.restaurantapp.features.sandwichDetails.useCases.FetchSandwich
 import br.panaggio.restaurantapp.features.sandwichesList.SandwichesListContract
 import br.panaggio.restaurantapp.features.sandwichesList.presenter.SandwichesListPresenter
 import br.panaggio.restaurantapp.features.sandwichesList.useCases.FetchSandwichesList
+import br.panaggio.restaurantapp.features.shoppingCart.ShoppingCartContract
+import br.panaggio.restaurantapp.features.shoppingCart.presenter.ShoppingCartListPresenter
+import br.panaggio.restaurantapp.features.shoppingCart.useCases.FetchOrderItems
 import br.panaggio.restaurantapp.network.restaurantApi.RestaurantApiService
 import br.panaggio.restaurantapp.network.restaurantApi.RetrofitRestaurantApiDataSource
 import com.github.salomonbrys.kodein.*
@@ -110,6 +110,21 @@ class Injection(private val application: Application) {
                     view = it as SandwichDetailsContract.View,
                     fetchSandwichUseCase = instance(),
                     createOrderItemUseCase = instance(),
+                    uiScheduler = instance(UI_SCHEDULER)
+            )
+        }
+
+        bind<FetchOrderItemsUseCase>() with singleton {
+            FetchOrderItems(
+                    restaurantApiDataSource = instance(),
+                    scheduler = instance(WORKER_SCHEDULER)
+            )
+        }
+
+        bind<ShoppingCartListPresenter>() with scopedSingleton(androidSupportFragmentScope) {
+            ShoppingCartListPresenter(
+                    view = it as ShoppingCartContract.View,
+                    fetchOrderItemsUseCase = instance(),
                     uiScheduler = instance(UI_SCHEDULER)
             )
         }
