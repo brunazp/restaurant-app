@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import br.panaggio.restaurantapp.R
 import br.panaggio.restaurantapp.domain.entities.OrderItem
+import br.panaggio.restaurantapp.utils.PriceCalculator
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.item_order.view.*
@@ -47,13 +48,7 @@ class OrderItemViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
                 .apply(requestOptions)
                 .into(itemView.imageview_photo)
 
-        val orderItemPrice = getOrderPrice(orderItem)
+        val orderItemPrice = PriceCalculator.calculateOrderItemPriceWithOffer(orderItem)
         itemView.textview_price.text = NumberFormat.getCurrencyInstance().format(orderItemPrice)
-    }
-
-    private fun getOrderPrice(orderItem: OrderItem): Double {
-        val sandwichPrice = orderItem.sandwich?.ingredients?.sumByDouble { it.price } ?: 0.0
-        val extraPrice = orderItem.extras.sumByDouble { it.price }
-        return sandwichPrice + extraPrice
     }
 }

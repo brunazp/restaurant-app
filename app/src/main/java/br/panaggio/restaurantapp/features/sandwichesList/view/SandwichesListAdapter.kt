@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import br.panaggio.restaurantapp.R
 import br.panaggio.restaurantapp.domain.entities.Sandwich
+import br.panaggio.restaurantapp.utils.PriceCalculator
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.item_sandwich.view.*
@@ -45,7 +46,7 @@ class SandwichItemViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView
 
         itemView.textview_ingredients.text = sandwich.ingredients.joinToString { it.name }
 
-        val sandwichPrice = sandwich.ingredients.sumByDouble { it.price }
+        val sandwichPrice = PriceCalculator.calculateSandwichPrice(sandwich)
         itemView.textview_price.text = NumberFormat.getCurrencyInstance().format(sandwichPrice)
 
         itemView.setOnClickListener { itemClickListener(sandwich) }

@@ -3,6 +3,7 @@ package br.panaggio.restaurantapp.features.shoppingCart.presenter
 import br.panaggio.restaurantapp.domain.entities.OrderItem
 import br.panaggio.restaurantapp.domain.useCases.FetchOrderItemsUseCase
 import br.panaggio.restaurantapp.features.shoppingCart.ShoppingCartContract
+import br.panaggio.restaurantapp.utils.PriceCalculator
 import io.reactivex.Scheduler
 import io.reactivex.disposables.CompositeDisposable
 
@@ -34,15 +35,11 @@ class ShoppingCartListPresenter(
             view.displayEmpty()
         } else {
 
-            val totalPrice = orderItems.map { getOrderPrice(it) }.sum()
+            val totalPrice = orderItems.sumByDouble {
+                PriceCalculator.calculateOrderItemPriceWithOffer(it)
+            }
             view.displayOrderItems(orderItems)
             view.displayTotalPrice(totalPrice)
         }
-    }
-
-    private fun getOrderPrice(orderItem: OrderItem): Double {
-        val sandwichPrice = orderItem.sandwich?.ingredients?.sumByDouble { it.price } ?: 0.0
-        val extraPrice = orderItem.extras.sumByDouble { it.price }
-        return sandwichPrice + extraPrice
     }
 }
