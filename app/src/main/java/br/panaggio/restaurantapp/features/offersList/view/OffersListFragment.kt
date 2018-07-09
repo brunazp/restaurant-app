@@ -64,7 +64,7 @@ class OffersListFragment : Fragment(), OffersListContract.View {
     }
 
     override fun displayError(error: Throwable) {
-        textview_error_message.visibility = View.GONE
+        textview_error_message.visibility = View.VISIBLE
     }
 
     override fun displayEmpty() {
