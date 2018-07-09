@@ -71,12 +71,24 @@
         tools:text="Burger\nbacon" />
 
     <Button
+        android:id="@+id/button_custom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/custom_button"
+        android:paddingBottom="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/button_order"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        tools:text="@string/custom_button"/>
+
+    <Button
         android:id="@+id/button_order"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/order_button"
         android:paddingBottom="8dp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/button_custom"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         tools:text="@string/order_button"/>

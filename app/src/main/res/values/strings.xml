@@ -6,9 +6,14 @@
     <string name="generic_list_error_message">Oooops… Something went wrong!\nTry again later!</string>
     <string name="sandwiches_list_empty_message">Oooops… We went out of sandwiches!</string>
     <string name="order_item_list_empty_message">Oooops… You need to order something first!</string>
+    <string name="ingredients_list_empty_message">Oooops… We went out of ingredients!</string>
     <string name="offers_list_empty_message">No offers for you today</string>
     <string name="ingredients_label">Ingredients</string>
     <string name="order_button">Add to cart</string>
     <string name="details_label">Sandwich details</string>
     <string name="total_label">Total: %s</string>
+    <string name="custom_button">Extras</string>
+    <string name="extras_label">Choose your extras</string>
+    <string name="done_label">Done</string>
+    <string name="customized_label">%s - Customized by You</string>
 </resources>
