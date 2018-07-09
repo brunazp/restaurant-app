@@ -49,7 +49,7 @@
         android:id="@+id/textview_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/colorPrimaryDark"
+        android:textColor="@color/colorAccent"
         style="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintStart_toEndOf="@id/guideline"
         app:layout_constraintTop_toBottomOf="@id/textview_ingredients"
