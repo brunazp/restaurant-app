@@ -16,7 +16,9 @@ import com.github.salomonbrys.kodein.LazyKodein
 import com.github.salomonbrys.kodein.android.appKodein
 import com.github.salomonbrys.kodein.instance
 import com.github.salomonbrys.kodein.with
+import kotlinx.android.synthetic.main.error_layout.*
 import kotlinx.android.synthetic.main.fragment_sandwiches_list.*
+import kotlinx.android.synthetic.main.progress_bar.*
 
 class SandwichesListFragment : Fragment(), SandwichesListContract.View {
     private val kodein by lazy { LazyKodein(appKodein) }

@@ -17,6 +17,8 @@ import com.github.salomonbrys.kodein.android.appKodein
 import com.github.salomonbrys.kodein.instance
 import com.github.salomonbrys.kodein.with
 import kotlinx.android.synthetic.main.activity_ingredients_selector.*
+import kotlinx.android.synthetic.main.error_layout.*
+import kotlinx.android.synthetic.main.progress_bar.*
 
 class IngredientsSelectorActivity : AppCompatActivity(), IngredientsSelectorContract.View {
     private lateinit var ingredientsListAdapter: IngredientsListAdapter
