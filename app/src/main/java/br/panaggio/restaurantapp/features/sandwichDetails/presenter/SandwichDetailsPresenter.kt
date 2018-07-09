@@ -51,7 +51,6 @@ class SandwichDetailsPresenter(
                 .execute(sandwich.id, getExtraIngredientsList())
                 .observeOn(uiScheduler)
                 .doOnSubscribe { view.showLoading() }
-                .doOnTerminate { view.hideLoading() }
                 .subscribe({ view.close() }, { view.showCreatingOrderError(it) })
     }
 

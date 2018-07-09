@@ -19,6 +19,8 @@ import com.github.salomonbrys.kodein.android.appKodein
 import com.github.salomonbrys.kodein.instance
 import com.github.salomonbrys.kodein.with
 import kotlinx.android.synthetic.main.activity_sandwich_details.*
+import kotlinx.android.synthetic.main.error_layout.*
+import kotlinx.android.synthetic.main.progress_bar.*
 import java.text.NumberFormat
 
 class SandwichDetailsActivity : AppCompatActivity(), SandwichDetailsContract.View {

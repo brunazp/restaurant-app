@@ -72,10 +72,12 @@
 
     <Button
         android:id="@+id/button_custom"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/custom_button"
-        android:paddingBottom="8dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginStart="16dp"
+        app:layout_constraintVertical_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/button_order"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -84,40 +86,17 @@
 
     <Button
         android:id="@+id/button_order"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/order_button"
-        android:paddingBottom="8dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
         app:layout_constraintStart_toEndOf="@+id/button_custom"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         tools:text="@string/order_button"/>
 
-    <ProgressBar
-        android:id="@+id/progress_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+    <include layout="@layout/progress_bar" />
 
-    <TextView
-        android:id="@+id/textview_error_message"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:drawableTop="@drawable/ic_sentiment_very_dissatisfied"
-        android:drawablePadding="10dp"
-        android:drawableTint="@android:color/darker_gray"
-        android:gravity="center"
-        android:text="@string/generic_list_error_message"
-        android:textColor="@android:color/darker_gray"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:visibility="gone"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:visibility="gone"
-        tools:text="@string/generic_list_error_message"/>
+    <include layout="@layout/error_layout" />
 </android.support.constraint.ConstraintLayout>
