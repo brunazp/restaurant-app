@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import br.panaggio.restaurantapp.R
 import br.panaggio.restaurantapp.domain.entities.OrderItem
+import br.panaggio.restaurantapp.utils.PriceCalculator
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.item_order.view.*
@@ -35,7 +36,11 @@ class OrderItemListAdapter(
 
 class OrderItemViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
     fun bindView(orderItem: OrderItem) {
-        itemView.textview_name.text = orderItem.sandwich?.name
+        val sandwichName =
+                if (orderItem.extras.isEmpty())
+                    orderItem.sandwich?.name
+                else itemView.context.getString(R.string.customized_label, orderItem.sandwich?.name)
+        itemView.textview_name.text = sandwichName
 
         val requestOptions = RequestOptions().placeholder(R.drawable.sandwiches)
         Glide.with(itemView.rootView.context)
@@ -43,7 +48,7 @@ class OrderItemViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
                 .apply(requestOptions)
                 .into(itemView.imageview_photo)
 
-        val sandwichPrice = orderItem.sandwich?.ingredients?.sumByDouble { it.price }
-        itemView.textview_price.text = NumberFormat.getCurrencyInstance().format(sandwichPrice)
+        val orderItemPrice = PriceCalculator.calculateOrderItemPriceWithOffer(orderItem)
+        itemView.textview_price.text = NumberFormat.getCurrencyInstance().format(orderItemPrice)
     }
 }

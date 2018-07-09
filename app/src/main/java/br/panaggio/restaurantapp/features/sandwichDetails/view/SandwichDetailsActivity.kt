@@ -7,7 +7,9 @@ import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import br.panaggio.restaurantapp.R
+import br.panaggio.restaurantapp.domain.entities.Ingredient
 import br.panaggio.restaurantapp.domain.entities.Sandwich
+import br.panaggio.restaurantapp.features.ingredientsSelector.view.IngredientsSelectorActivity
 import br.panaggio.restaurantapp.features.sandwichDetails.SandwichDetailsContract
 import br.panaggio.restaurantapp.features.sandwichDetails.presenter.SandwichDetailsPresenter
 import com.bumptech.glide.Glide
@@ -39,17 +41,29 @@ class SandwichDetailsActivity : AppCompatActivity(), SandwichDetailsContract.Vie
         presenter.release()
     }
 
-    override fun displaySandwich(sandwich: Sandwich, price: Double) {
+    override fun displaySandwich(sandwich: Sandwich, price: Double, extrasIngredient: List<Ingredient>) {
         showContent(true)
         val requestOptions = RequestOptions().placeholder(R.drawable.sandwiches)
         Glide.with(this)
                 .load(sandwich.photoUrl)
                 .apply(requestOptions)
                 .into(imageview_photo)
-        textview_name.text = sandwich.name
-        textview_ingredients.text = sandwich.ingredients.joinToString(separator = "\n") { it.name }
+
+        val sandwichName =
+                if (extrasIngredient.isEmpty()) sandwich.name else getString(R.string.customized_label, sandwich.name)
+        textview_name.text = sandwichName
+
         textview_price.text = NumberFormat.getCurrencyInstance().format(price)
         button_order.setOnClickListener { presenter.clickedOrder() }
+        button_custom.setOnClickListener { presenter.clickCustom() }
+
+        val ingredients = sandwich.ingredients + extrasIngredient
+        textview_ingredients.text = ingredients
+                .groupingBy { it }
+                .eachCount()
+                .entries
+                .map { "${it.key.name} x${it.value}" }
+                .joinToString(separator = "\n")
     }
 
     override fun displayError(error: Throwable) {
@@ -71,11 +85,29 @@ class SandwichDetailsActivity : AppCompatActivity(), SandwichDetailsContract.Vie
         finish()
     }
 
-    override fun showCreatingOrderError() {
+    override fun showCreatingOrderError(error: Throwable) {
         AlertDialog.Builder(this)
                 .setMessage(R.string.generic_list_error_message)
                 .setPositiveButton(android.R.string.ok, { _, _ -> finish() })
                 .show()
+    }
+
+    override fun openIngredientsSelector() {
+        val intent = Intent(this, IngredientsSelectorActivity::class.java)
+        startActivityForResult(intent, IngredientsSelectorActivity.EXTRA_ITEMS_REQUEST)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
+        super.onActivityResult(requestCode, resultCode, intent)
+        if (requestCode == IngredientsSelectorActivity.EXTRA_ITEMS_REQUEST) {
+            if (resultCode == RESULT_OK) {
+                val bundle = intent?.getBundleExtra(IngredientsSelectorActivity.EXTRA_BUNDLE)
+                val mapIngredientQuantity =
+                        bundle?.getSerializable(IngredientsSelectorActivity.EXTRA_CUSTOM_INGREDIENTS)
+                                as HashMap<Ingredient, Int>
+                presenter.extraUpdated(mapIngredientQuantity)
+            }
+        }
     }
 
     private fun showContent(show: Boolean) {
@@ -86,6 +118,7 @@ class SandwichDetailsActivity : AppCompatActivity(), SandwichDetailsContract.Vie
         textview_ingredients.visibility = visibility
         textview_price.visibility = visibility
         button_order.visibility = visibility
+        button_custom.visibility = visibility
     }
 
     companion object {

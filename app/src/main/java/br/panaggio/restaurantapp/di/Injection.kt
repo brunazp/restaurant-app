@@ -3,6 +3,9 @@ package br.panaggio.restaurantapp.di
 import android.app.Application
 import br.panaggio.restaurantapp.domain.dataSources.RestaurantApiDataSource
 import br.panaggio.restaurantapp.domain.useCases.*
+import br.panaggio.restaurantapp.features.ingredientsSelector.IngredientsSelectorContract
+import br.panaggio.restaurantapp.features.ingredientsSelector.presenter.IngredientsSelectorPresenter
+import br.panaggio.restaurantapp.features.ingredientsSelector.useCases.FetchIngredientsList
 import br.panaggio.restaurantapp.features.offersList.OffersListContract
 import br.panaggio.restaurantapp.features.offersList.presenter.OffersListPresenter
 import br.panaggio.restaurantapp.features.offersList.useCases.FetchOffersList
@@ -125,6 +128,21 @@ class Injection(private val application: Application) {
             ShoppingCartListPresenter(
                     view = it as ShoppingCartContract.View,
                     fetchOrderItemsUseCase = instance(),
+                    uiScheduler = instance(UI_SCHEDULER)
+            )
+        }
+
+        bind<FetchIngredientsListUseCase>() with singleton {
+            FetchIngredientsList(
+                    restaurantApiDataSource = instance(),
+                    scheduler = instance(WORKER_SCHEDULER)
+            )
+        }
+
+        bind<IngredientsSelectorPresenter>() with scopedSingleton(androidActivityScope) {
+            IngredientsSelectorPresenter(
+                    view = it as IngredientsSelectorContract.View,
+                    fetchIngredientsList = instance(),
                     uiScheduler = instance(UI_SCHEDULER)
             )
         }
