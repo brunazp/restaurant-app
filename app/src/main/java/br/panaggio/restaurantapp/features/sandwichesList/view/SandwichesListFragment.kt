@@ -59,6 +59,7 @@ class SandwichesListFragment : Fragment(), SandwichesListContract.View {
     }
 
     override fun showLoading() {
+        recyclerview_sandwiches.visibility = View.GONE
         progress_bar.visibility = View.VISIBLE
     }
 

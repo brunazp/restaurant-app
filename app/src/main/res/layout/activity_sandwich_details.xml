@@ -72,10 +72,12 @@
 
     <Button
         android:id="@+id/button_custom"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/custom_button"
-        android:paddingBottom="8dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginStart="16dp"
+        app:layout_constraintVertical_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/button_order"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -84,10 +86,11 @@
 
     <Button
         android:id="@+id/button_order"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/order_button"
-        android:paddingBottom="8dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
         app:layout_constraintStart_toEndOf="@+id/button_custom"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
