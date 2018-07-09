@@ -29,7 +29,7 @@ To download a debug version of the app, click [here](https://drive.google.com/fi
 * Tested price calculations using JUnit 
 * Implemented using a MVP architecture
 * Hosted server at Heroku. The code is available [here](https://github.com/brunazp/restaurant-server). You can also test API calls using this URL: [https://restaurant-app-service.herokuapp.com/api/](https://restaurant-app-service.herokuapp.com/api/)
-* Used CircleCI for Continuous Integration since the beginning of the project
+* Used CircleCI for Continuous Integration and a git flow since the beginning of the project, in order to prevent the introduction of code that could break the build 
 * Implemented the project's dependencies injection using Kodein
 
 ## Libraries used
